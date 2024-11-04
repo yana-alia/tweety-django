@@ -1,0 +1,17 @@
+<div class="tw-bg-blue-100 tw-rounded-lg tw-p-4 tw-m-6">
+    <h3 class="tw-font-bold tw-text-xl tw-mb-4">Following</h3>
+
+    <ul class="tw-list-none">
+        {% for friend in user.profile.following.all %}
+            <li class="d-flex mb-1">    
+                <a href="{% url 'profile' friend.pk %}" class="tw-flex tw-items-center tw-text-sm tw-mb-2" style="text-decoration: none">
+                    <img src="{{friend.profile.avatar.url}}" alt="" class="tw-object-scale-down tw-h-14 tw-w-14 tw-rounded-full tw-mr-2">
+                    <div>
+                        <p class="text-bold mb-0" style="color: black;"><strong>{{ friend.profile.name }}</strong></p> 
+                        <p class="mb-0" style="color: gray;">@{{ friend.username }}</p> 
+                    </div>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>    
+</div>

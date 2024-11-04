@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -31,8 +32,9 @@ class PostListView(View):
             'post_list': posts,
             'form': form,
         }
-            
-        return render(request, 'social/post_list.html', context)
+        
+        return redirect('post-list')
+        # return render(request, 'social/post_list.html', context)
 
 class ProfileView(View):
     def get(self, request, pk, *args, **kwargs):
