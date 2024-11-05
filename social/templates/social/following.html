@@ -7,7 +7,9 @@
                 <a href="{% url 'profile' friend.pk %}" class="tw-flex tw-items-center tw-text-sm tw-mb-2" style="text-decoration: none">
                     <img src="{{friend.profile.avatar.url}}" alt="" class="tw-object-scale-down tw-h-14 tw-w-14 tw-rounded-full tw-mr-2">
                     <div>
-                        <p class="text-bold mb-0" style="color: black;"><strong>{{ friend.profile.name }}</strong></p> 
+                        {% if friend.profile.name %}
+                            <p class="text-bold mb-0" style="color: black;"><strong>{{ friend.profile.name }}</strong></p> 
+                        {% endif %}
                         <p class="mb-0" style="color: gray;">@{{ friend.username }}</p> 
                     </div>
                 </a>

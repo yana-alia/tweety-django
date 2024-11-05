@@ -33,15 +33,27 @@
 
                 <div class="tw-flex tw-justify-between tw-items-center tw-mb-6">
                     <div>
-                        <div class="tw-flex">
-                            <h2 class='tw-font-bold tw-text-2xl tw-mb-0'>{{user.profile.name}}</h2>
-                            <span class="p-1">
-                                {% if request.user == user %}
-                                    <a href="{% url 'profile-edit' profile.pk %}" style="color: #333"><i class="far fa-edit"></i></a>
-                                {% endif %}
-                            </span>
-                        </div>
-                        <p class="tw-text-sm tw-text-gray-400">@{{user.username}}</p>
+                        {% if user.profile.name %}
+                            <div class="tw-flex">
+                                <h2 class='tw-font-bold tw-text-2xl tw-mb-0'>{{user.profile.name}}</h2>
+                                <span class="p-1">
+                                    {% if request.user == user %}
+                                        <a href="{% url 'profile-edit' profile.pk %}" style="color: #333"><i class="far fa-edit"></i></a>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <p class="tw-text-sm tw-text-gray-400">@{{user.username}}</p>
+                        {% else %}
+                            <div class="tw-flex">
+                                <p class="tw-text-sm tw-text-gray-400">@{{user.username}}</p>
+                                <span class="p-1">
+                                    {% if request.user == user %}
+                                        <a href="{% url 'profile-edit' profile.pk %}" style="color: #333"><i class="far fa-edit"></i></a>
+                                    {% endif %}
+                                </span>
+                            </div>
+                        {% endif %}
+
                     </div>
                     <div class="mb-3">
                         {% if user == request.user %}

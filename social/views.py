@@ -7,9 +7,26 @@ from .forms import PostForm
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.views.generic.edit import UpdateView
 
+class ExploreView(View):
+    def get(self, request, *args, **kwargs):
+    
+        posts = Post.objects.all().order_by('-created_on')
+        
+        context = {
+            'posts': posts,
+        }
+        
+        return render(request, 'social/explore.html', context)
+
 class PostListView(View):
     def get(self, request, *args, **kwargs):
-        posts = Post.objects.all().order_by('-created_on')
+        
+        following_ids = list(request.user.profile.following.values_list('id', flat=True))
+        following_ids.append(request.user.id)
+
+        posts = Post.objects.filter(author__id__in=following_ids).order_by('-created_on')
+
+        # posts = Post.objects.all().order_by('-created_on')
         form = PostForm()
         
         context = {
@@ -20,21 +37,14 @@ class PostListView(View):
         return render(request, 'social/post_list.html', context)
     
     def post(self, request, *args, **kwargs):
-        posts = Post.objects.all().order_by('-created_on')
         form = PostForm(request.POST)
         
         if form.is_valid():
             new_post = form.save(commit=False)
             new_post.author = request.user
             new_post.save()
-            
-        context = {
-            'post_list': posts,
-            'form': form,
-        }
         
         return redirect('post-list')
-        # return render(request, 'social/post_list.html', context)
 
 class ProfileView(View):
     def get(self, request, pk, *args, **kwargs):
